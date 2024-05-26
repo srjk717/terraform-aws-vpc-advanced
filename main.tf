@@ -19,7 +19,7 @@ resource "aws_internet_gateway" "main" {
    tags = merge(
     var.common_tags,
     {
-      Name = "${var.project_name}"
+      Name = var.project_name
     },
     var.igw_tags
     )  
@@ -27,7 +27,7 @@ resource "aws_internet_gateway" "main" {
 
 resource "aws_subnet" "public" {
   count = length(var.public_subnet_cidr)
-  map_public_ip_on_launch = true
+  # map_public_ip_on_launch = true
   vpc_id     = aws_vpc.main.id
   cidr_block = var.public_subnet_cidr[count.index]
   availability_zone = local.azs[count.index]
@@ -79,7 +79,7 @@ resource "aws_nat_gateway" "main" {
    tags = merge(
         var.common_tags,
         {
-            Name = "${var.project_name}"
+            Name = var.project_name
         },
         var.nat_gateway_tags
     ) 
